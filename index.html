@@ -25,6 +25,7 @@
             const [finalScore, setFinalScore] = React.useState(null);
             const [testDetails, setTestDetails] = React.useState([]);
 
+            // Reference: [1] "2022 ORTAÖĞRETIM KURUMLARINA LIŞKIN MERKEZI SINAV",  https://cdn.eba.gov.tr/icerik/2022/06/2022_LGS_rapor.pdf
             const testStats = {
                 "Türkçe": { mean: 9.22, std: 4.61 },
                 "Tarih": { mean: 5.54, std: 2.59 },
@@ -52,7 +53,7 @@
                 "Fen": 20
             };
 
-            const calculateStandardScore = (net, mean, std) => {
+            const calculateStandardScore = (net, mean, std) => { // [1, s.14, madde 5]
                 return 50 + 10 * ((net - mean) / std);
             };
 
