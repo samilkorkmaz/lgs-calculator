@@ -1,2 +1,2 @@
 # lgs-calculator
-LGS puanı hesaplama
+LGS puanı hesaplama (2022 istatistikleri ile)
