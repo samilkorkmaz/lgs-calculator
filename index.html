@@ -275,6 +275,35 @@
                                 <div className="text-center text-2xl font-bold p-4 bg-blue-100 rounded-lg">
                                     Merkezi Sınav Puanı: {finalScore.toFixed(1)}
                                 </div>
+
+                                {percentile && (
+                                    <div className="mt-6">
+                                        <div className="mb-4">
+                                            <span className="font-semibold">Yüzdelik Dilim:</span> {percentile}
+                                        </div>
+                                        {matchingSchools.length > 0 && (
+                                            <div>
+                                                <div className="font-semibold mb-2">Puanınıza Uygun Okullar:</div>
+                                                <table className="w-full border-collapse">
+                                                    <thead>
+                                                        <tr>
+                                                            <th className="p-2 border bg-gray-50">Lise Adı</th>
+                                                            <th className="p-2 border bg-gray-50">Taban Puanı</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {matchingSchools.map((school, index) => (
+                                                            <tr key={index}>
+                                                                <td className="p-2 border">{school.name}</td>
+                                                                <td className="p-2 border text-center">{school.score}</td>
+                                                            </tr>
+                                                        ))}
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        )}
+                                    </div>
+                                )}
                                 
                                 <div>
                                     <h3 className="font-semibold mb-2">Test Sonuçları</h3>
@@ -324,35 +353,7 @@
                                             ))}
                                         </tbody>
                                     </table>
-                                </div>
-                                {percentile && (
-                                    <div className="mt-6">
-                                        <div className="mb-4">
-                                            <span className="font-semibold">Yüzdelik Dilim:</span> {percentile}
-                                        </div>
-                                        {matchingSchools.length > 0 && (
-                                            <div>
-                                                <div className="font-semibold mb-2">Puanınıza Uygun Okullar:</div>
-                                                <table className="w-full border-collapse">
-                                                    <thead>
-                                                        <tr>
-                                                            <th className="p-2 border bg-gray-50">Lise Adı</th>
-                                                            <th className="p-2 border bg-gray-50">Taban Puanı</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        {matchingSchools.map((school, index) => (
-                                                            <tr key={index}>
-                                                                <td className="p-2 border">{school.name}</td>
-                                                                <td className="p-2 border text-center">{school.score}</td>
-                                                            </tr>
-                                                        ))}
-                                                    </tbody>
-                                                </table>
-                                            </div>
-                                        )}
-                                    </div>
-                                )}
+                                </div>                                
                             </div>
                         )}
                     </div>
