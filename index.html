@@ -66,6 +66,12 @@
                 "Fen": 20
             };
 
+            const calculateNet = (test) => {
+                const total = questionCounts[test];
+                const { wrong, blank } = scores[test];
+                return (total - blank - wrong - wrong/3.0).toFixed(1);
+            };
+
             const calculateStandardScore = (net, mean, std) => { // [1, s.14, madde 5]
                 return 50 + 10 * ((net - mean) / std);
             };
@@ -142,15 +148,17 @@
                                 <thead>
                                     <tr>
                                         <th className="p-2 border bg-gray-50">Test</th>
+                                        <th className="p-2 border bg-gray-50">Toplam Soru</th>
                                         <th className="p-2 border bg-gray-50">Yanlış</th>
                                         <th className="p-2 border bg-gray-50">Boş</th>
-                                        <th className="p-2 border bg-gray-50">Toplam Soru</th>
+                                        <th className="p-2 border bg-gray-50">Net</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {Object.keys(testWeights).map((test) => (
+                                    {Object.keys(scores).map((test) => (
                                         <tr key={test}>
                                             <td className="p-2 border font-medium">{test}</td>
+                                            <td className="p-2 border text-center">{questionCounts[test]}</td>
                                             <td className="p-2 border">
                                                 <input
                                                     type="number"
@@ -171,7 +179,9 @@
                                                     className="w-16 p-1 border rounded"
                                                 />
                                             </td>
-                                            <td className="p-2 border text-center">{questionCounts[test]}</td>
+                                            <td className="p-2 border text-center font-semibold">
+                                                {calculateNet(test)}
+                                            </td>
                                         </tr>
                                     ))}
                                 </tbody>
