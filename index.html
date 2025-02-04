@@ -5,12 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LGS Puan Hesaplama</title>
     <style>
-        a {
-            color: #2563eb; /* Tailwind blue-600 */
-            text-decoration: underline;
+        /* More specific selector to override Tailwind defaults */
+        .max-w-4xl a, 
+        table a {
+            color: #2563eb !important; /* Tailwind blue-600 */
+            text-decoration: underline !important;
         }
-        a:hover {
-            color: #1d4ed8; /* Tailwind blue-700 */
+        .max-w-4xl a:hover, 
+        table a:hover {
+            color: #1d4ed8 !important; /* Tailwind blue-700 */
         }
     </style>
     <script src="https://unpkg.com/react@17/umd/react.production.min.js"></script>
