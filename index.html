@@ -37,6 +37,8 @@
 
             const [finalScore, setFinalScore] = React.useState(null);
             const [testDetails, setTestDetails] = React.useState([]);
+            const [matchingSchools, setMatchingSchools] = useState([]);
+            const [percentile, setPercentile] = useState(null);
 
             // Reference: [1] "2022 ORTAÖĞRETIM KURUMLARINA LIŞKIN MERKEZI SINAV",  https://cdn.eba.gov.tr/icerik/2022/06/2022_LGS_rapor.pdf
             const testStats = {
@@ -65,6 +67,64 @@
                 "Tarih": 10,
                 "Din": 10                
             };
+
+            const schools = [
+                { name: "Çankaya – Ankara Fen Lisesi", percentile: 0.07, score: 494.5234 },
+                { name: "Çankaya – Prof. Dr. Aziz Sancar Fen Lisesi", percentile: 0.27, score: 488.637 },
+                { name: "Pursaklar – Ankara Pursaklar Fen Lisesi", percentile: 0.34, score: 487.6466 },
+                { name: "Yenimahalle – Atatürk Anadolu Lisesi", percentile: 0.9, score: 478.2375 },
+                { name: "Elmadağ – Özdemir Bayraktar Havacılık ve Uzay Teknolojileri Mesleki ve Teknik Anadolu Lisesi – Havacılık ve Uzay Teknolojisi", percentile: 1.01, score: 477.2732 },
+                { name: "Çankaya – Cumhuriyet Fen Lisesi", percentile: 1.11, score: 476.2837 },
+                { name: "Sincan – Ankara Erman Ilıcak Fen Lisesi", percentile: 1.17, score: 475.2645 },
+                { name: "Keçiören – Keçiören Vatansever Şehit Tümgeneral Aydoğan Aydın Fen Lisesi", percentile: 1.31, score: 473.6475 },
+                { name: "Yenimahalle – Yenimahalle Fen Lisesi", percentile: 1.5, score: 471.7965 },
+                { name: "Yenimahalle – Aselsan Mesleki ve Teknik Anadolu Lisesi – Elektrik-Elektronik Teknolojisi Alanı", percentile: 1.82, score: 468.7673 },
+                { name: "Etimesgut – Özkent Akbilek Fen Lisesi", percentile: 1.96, score: 467.3099 },
+                { name: "Yenimahalle – Aselsan Mesleki ve Teknik Anadolu Lisesi – Makine ve Tasarım Teknolojisi Alanı", percentile: 2.31, score: 464.4201 },
+                { name: "Çankaya – Ankara Atatürk Lisesi", percentile: 2.55, score: 462.3874 },
+                { name: "Çankaya – Gazi Anadolu Lisesi", percentile: 2.75, score: 460.843 },
+                { name: "Çankaya – Mehmet Emin Resulzade Anadolu Lisesi", percentile: 3, score: 459.0718 },
+                { name: "Etimesgut – Şehit Oğuzhan Yaşar Anadolu Lisesi", percentile: 3.36, score: 456.5689 },
+                { name: "Çankaya – Dr.Binnaz Ege-Dr.Rıdvan Ege Anadolu Lisesi", percentile: 3.52, score: 455.0763 },
+                { name: "Çankaya – Hacı Ömer Tarman Anadolu Lisesi", percentile: 4.03, score: 451.5081 },
+                { name: "Yenimahalle – Nermin Mehmet Çekiç Anadolu Lisesi", percentile: 4.21, score: 450.1653 },
+                { name: "Keçiören – vecihi Hürkuş Anadolu Lisesi", percentile: 4.23, score: 450.0746 },
+                { name: "Çankaya – Hacı Ömer Tarman Anadolu Lisesi", percentile: 4.31, score: 449.475 },
+                { name: "Yenimahalle – Tevfik İleri Anadolu İmam Hatip Lisesi – Fen ve Sosyal Bilimler Programı", percentile: 4.71, score: 446.8843 },
+                { name: "Mamak – Mamak Fen Lisesi", percentile: 4.82, score: 445.5013 },
+                { name: "Etimesgut – Cezeri Yeşil Teknoloji Mesleki ve Teknik Anadolu Lisesi – Elektrik-Elektronik Teknolojisi Alanı", percentile: 5.2, score: 443.6208 },
+                { name: "Yenimahalle – Tevfik İleri Anadolu İmam Hatip Lisesi – Fen ve Sosyal Bilimler Programı", percentile: 5.24, score: 443.3859 },
+                { name: "Çankaya – Ayrancı Anadolu Lisesi", percentile: 5.27, score: 443.1699 },
+                { name: "Çankaya – Betül Can Anadolu Lisesi", percentile: 6.16, score: 437.5939 },
+                { name: "Sincan – Süleyman Demirel Anadolu Lisesi", percentile: 6.17, score: 437.4764 },
+                { name: "Altındağ – Altındağ Yıldırım Beyazıt Fen Lisesi", percentile: 6.18, score: 437.4453 },
+                { name: "Yenimahalle – Mustafa Azmi Doğan Anadolu Lisesi", percentile: 6.39, score: 436.1792 },
+                { name: "Çankaya – Ayhan Sümer Anadolu Lisesi", percentile: 6.93, score: 432.8762 },
+                { name: "Etimesgut – Cezeri Yeşil Teknoloji Mesleki ve Teknik Anadolu Lisesi – Yenilenebilir Enerji Teknolojileri Alanı", percentile: 6.96, score: 432.7517 },
+                { name: "Keçiören – Aydınlıkevler Anadolu Lisesi", percentile: 6.97, score: 432.7249 },
+                { name: "Çankaya – Ayrancı Anadolu Lisesi", percentile: 7.12, score: 431.6667 },
+                { name: "Çankaya – Ümitköy Anadolu Lisesi", percentile: 7.13, score: 431.5781 },
+                { name: "Altındağ – Ankara Lisesi", percentile: 7.15, score: 431.4415 },
+                { name: "Etimesgut – Şehit Ömer Halisdemir Anadolu Lisesi", percentile: 7.29, score: 430.66 },
+                { name: "Kahramankazan – Mustafa Hakan Güvençer Fen Lisesi", percentile: 7.54, score: 429.2305 },
+                { name: "Sincan – Fatih Anadolu Lisesi", percentile: 8.51, score: 423.5352 },
+                { name: "Pursaklar – Pursaklar Ayyıldız Anadolu Lisesi", percentile: 8.56, score: 423.2419 },
+                { name: "Polatlı – Polatlı Tobb Fen Lisesi", percentile: 8.65, score: 422.7343 },
+                { name: "Mamak – Yavuz Sultan Selim Anadolu Lisesi", percentile: 8.74, score: 422.2254 },
+                { name: "Yenimahalle – Şehit Ömer Halisdemir Anadolu İmam Hatip Lisesi – Fen ve Sosyal Bilimler Programı", percentile: 8.76, score: 422.1072 }, 
+                { name: "Gölbaşı – Gölbaşı Anadolu Lisesi", percentile: 8.9, score: 421.2943 },
+                { name: "Çubuk – Meliha Hasanali Bostan Çubuk Fen Lisesi", percentile: 8.96, score: 420.9409 },
+                { name: "Altındağ – Gazi Lisesi", percentile: 9.66, score: 417.0182 },
+                { name: "Yenimahalle – Şehit Cengiz Polat Anadolu İmam Hatip Lisesi", percentile: 9.79, score: 416.2882 },
+                { name: "Keçiören – Aktepe Şehit Köksal Kaşaltı Anadolu Lisesi", percentile: 10.04, score: 414.8322 },
+                { name: "Çankaya – Ankara Türk Telekom Sosyal Bilimler Lisesi", percentile: 10.16, score: 414.2151 },
+                { name: "Sincan – Erkan – Volkan Yiğit Anadolu İmam Hatip Lisesi", percentile: 10.8, score: 410.7222 },
+                { name: "Kızılcahamam – Tusaş Şehit Hakan Gülşen Mesleki ve Teknik Anadolu Lisesi", percentile: 10.94, score: 409.9854 },
+                { name: "Yenimahalle – Teknopark Ankara İvedik Osb Mesleki ve Teknik Anadolu Lisesi", percentile: 11.16, score: 408.8482 },
+                { name: "Elmadağ – Hasanoğlan Atatürk Fen Lisesi", percentile: 11.27, score: 408.2105 },
+                { name: "Beypazarı – Hatice-Cemil Ercan Fen Lisesi", percentile: 11.3, score: 408.0844 },
+                { name: "Mamak – Çağrıbey Anadolu Lisesi", percentile: 11.44, score: 407.3174 }
+            ];
 
             const calculateNet = (test) => {
                 const total = questionCounts[test];
@@ -118,11 +178,32 @@
 
                 setFinalScore(MSP);
                 setTestDetails(details);
+                findMatchingSchools(MSP);
             };
 
             React.useEffect(() => {
                 calculateScores();
             }, [scores]);
+
+            const findMatchingSchools = (calculatedScore) => {
+                const sortedSchools = [...schools].sort((a, b) => b.score - a.score);
+                let foundPercentile = null;
+                
+                for (let i = 0; i < sortedSchools.length; i++) {
+                    if (calculatedScore >= sortedSchools[i].score) {
+                        foundPercentile = sortedSchools[i].percentile;
+                        const matches = sortedSchools.slice(i, Math.min(i + 3, sortedSchools.length));
+                        setMatchingSchools(matches);
+                        setPercentile(foundPercentile);
+                        break;
+                    }
+                }
+                
+                if (!foundPercentile && calculatedScore < sortedSchools[sortedSchools.length - 1].score) {
+                    setPercentile(">11.44");
+                    setMatchingSchools([]);
+                }
+            };
 
             const handleInputChange = (test, type, value) => {
                 const numValue = value === '' ? 0 : parseInt(value, 10);
@@ -243,6 +324,34 @@
                                         </tbody>
                                     </table>
                                 </div>
+                                {percentile && (
+                                    <div className="mt-6">
+                                        <div className="mb-4">
+                                            <span className="font-semibold">Yüzdelik Dilim:</span> {percentile}
+                                        </div>
+                                        {matchingSchools.length > 0 && (
+                                            <div>
+                                                <div className="font-semibold mb-2">Puanınıza Uygun Okullar:</div>
+                                                <table className="w-full border-collapse">
+                                                    <thead>
+                                                        <tr>
+                                                            <th className="p-2 border bg-gray-50">Lise Adı</th>
+                                                            <th className="p-2 border bg-gray-50">Taban Puanı</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {matchingSchools.map((school, index) => (
+                                                            <tr key={index}>
+                                                                <td className="p-2 border">{school.name}</td>
+                                                                <td className="p-2 border text-center">{school.score}</td>
+                                                            </tr>
+                                                        ))}
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        )}
+                                    </div>
+                                )}
                             </div>
                         )}
                     </div>
